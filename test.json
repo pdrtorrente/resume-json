@@ -1,0 +1,11 @@
+{
+    "bateria": 76.9283,
+    "pressao": 1.2839,
+    "temperatura": 18.9823,
+    "humidade": 32.1298,
+    "co2": 3.9182,
+    "luminosidade": 1.298,
+    "acelerometro": [23.9281, 91.0290, -38.1298],
+    "giroscopio": [3.192, -2.392, 28.9181],
+    "magnetometro": [293.1282, -209.9283, 102.1928]
+}
