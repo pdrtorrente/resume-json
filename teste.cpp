@@ -4,20 +4,29 @@
 #include <fstream>
 using namespace std;
 
-int main (void){
+class transforma_json {
+public:
+    vector <string> conteudo;
+    vector <string> infos;
+    vector <float> dados;
     fstream arquivo;
-    arquivo.open ("test.json");
-    if (arquivo.is_open()){
-        vector <string> conteudo;
-        string teste;
-        while (teste != "}"){
-            arquivo >> teste;
-            conteudo.push_back(teste);
+
+transforma_json(string nome_arquivo){
+    arquivo.open (nome_arquivo);
+}
+~transforma_json(){
+    arquivo.close();
+}
+public:
+    void filtro(){
+        string cont_json;
+        while (cont_json != "}"){
+            arquivo >> cont_json;
+            conteudo.push_back(cont_json);
         }
 
-        vector <string> infos;
         for (string frase : conteudo){
-            if(frase[0] != '{' && frase[0] != '"'){
+            if(frase[0] != '{' && frase[0] != '}' && frase[0] != '"'){
                 string palavra = frase;
                 for(char letra : palavra){
                     if (letra == '[' || letra == ']'){
@@ -25,17 +34,32 @@ int main (void){
                         palavra.erase(x,1);
                     }
                 }
-                /*if (palavra[0] == '['){
-                    palavra.erase(0,1);
-                }*/
-                palavra.pop_back();
+                if (frase.back() == ','){
+                    palavra.pop_back();
+                }
                 infos.push_back(palavra);
             }
         }
 
-        for (string num : infos){
-            cout << num << endl;
+        int i = 0;
+        for (string num_string : infos){
+            float dado = stof(num_string);
+            dados.push_back(dado);
+            i++;
         }
-        arquivo.close();
     }
+    void envia_dados() {
+        int i = 0;
+        for (float dado : dados){
+            cout << dado << ',';
+            i++;
+        }
+        cout << i*sizeof(float) << endl;
+    }
+};
+
+int main (void){
+    transforma_json test("test.json");
+    test.filtro();
+    test.envia_dados();
 }
